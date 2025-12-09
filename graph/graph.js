@@ -8,7 +8,9 @@ class Graph {
   }
 
   drawNodes() {
-
+    for(let node of this.#nodes){
+      circle(node.x, node.y, node.getDiam());
+    }
   }
 
   drawEdges() {
@@ -16,7 +18,9 @@ class Graph {
   }
 
   addNode(x, y) {
-
+    let newNode = new Node(x, y, this.#currentId);
+    this.#nodes.push(newNode);
+    this.#currentId++;
   }
 }
 
