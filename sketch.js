@@ -1,3 +1,6 @@
+// 1 - draw nodes
+// 2 - prevent draws from being on top of each other
+
 function setup() {
   createCanvas(400, 400);
 }
