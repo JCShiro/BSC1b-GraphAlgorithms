@@ -1,6 +1,6 @@
 function setup() {
   createCanvas(800, 700);
-  
+
   // console.log(graph.nodes)
 }
 
@@ -12,6 +12,6 @@ function draw() {
 
 function mouseClicked() {
   graph.onClick(mouseX, mouseY);
-  
-  console.log("Mouse has been clicked at, X: " +mouseX+ "Y: " +mouseY);
+
+  // console.log("Mouse has been clicked at, X: " + mouseX + "Y: " + mouseY); //Console log gor debugging
 }

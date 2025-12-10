@@ -1,7 +1,6 @@
 const nodeDiameter = 50;
 
 class Node {
-
   selected = false;
   neighbours = [];
 
