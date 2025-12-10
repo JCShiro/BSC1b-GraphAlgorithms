@@ -1,7 +1,17 @@
+
+
 class Graph {
-  #nodes = [];
+  static nodes = [];
   #currentId = 1;
   #selectedNode = 0;
+
+  state = DRAWING;
+
+  switchState() {
+    console.log(this.state);
+    this.state = !this.state;
+    console.log(this.state);
+  }
 
   #outOfBOunds(x, y) {
     if (x < 0 || y < 0 || x > width || y > height){
@@ -11,7 +21,7 @@ class Graph {
   }
 
   #insideNode(x, y) {
-    for (let node of this.#nodes) {
+    for (let node of Graph.nodes) {
       if (
         squareDistance(x, y, node.x, node.y) <
         (nodeDiameter * nodeDiameter) / 4
@@ -22,7 +32,7 @@ class Graph {
   }
 
   #tooCloseToNode(x, y) {
-    for (let node of this.#nodes) {
+    for (let node of Graph.nodes) {
       if (squareDistance(x, y, node.x, node.y) < nodeDiameter * nodeDiameter) {
         return true;
       }
@@ -39,7 +49,7 @@ class Graph {
   }
 
   #drawNodes() {
-    for (let node of this.#nodes) {
+    for (let node of Graph.nodes) {
       if (node.selected) {
         push();
         fill(100, 100, 100);
@@ -50,10 +60,10 @@ class Graph {
   }
 
   #drawEdges() {
-    for (let node of this.#nodes) {
+    for (let node of Graph.nodes) {
       if (node.neighbours.length > 0) {
         for (let nodeId of node.neighbours) {
-          const otherNode = this.#nodes[nodeId - 1];
+          const otherNode = Graph.nodes[nodeId - 1];
           line(node.x, node.y, otherNode.x, otherNode.y);
         }
       }
@@ -84,7 +94,7 @@ class Graph {
     if (this.#addEdge(x, y)) return;
 
     // deselect and add node normally
-    this.#nodes[this.#selectedNode - 1].selected = false;
+    Graph.nodes[this.#selectedNode - 1].selected = false;
     this.#selectedNode = 0;
     this.#addNode(x, y);
   }
@@ -97,7 +107,7 @@ class Graph {
   #addEdge(x, y) {
     const otherNode = this.#insideNode(x, y);
     if (otherNode) {
-      const currentNode = this.#nodes[this.#selectedNode - 1];
+      const currentNode = Graph.nodes[this.#selectedNode - 1];
       otherNode.neighbours.push(currentNode.id);
       currentNode.neighbours.push(otherNode.id);
       currentNode.selected = false;
@@ -121,7 +131,7 @@ class Graph {
 
     // add node
     let newNode = new Node(x, y, this.#currentId);
-    this.#nodes.push(newNode);
+    Graph.nodes.push(newNode);
     this.#currentId++;
   }
 }
