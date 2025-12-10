@@ -3,6 +3,13 @@ class Graph {
   #currentId = 1;
   #selectedNode = 0;
 
+  #outOfBOunds(x, y) {
+    if (x < 0 || y < 0 || x > width || y > height){
+      return true;
+    }
+    return false;
+  }
+
   #insideNode(x, y) {
     for (let node of this.#nodes) {
       if (
@@ -15,13 +22,19 @@ class Graph {
   }
 
   #tooCloseToNode(x, y) {
-    console.log(this.#nodes);
     for (let node of this.#nodes) {
-      console.log(squareDistance(x, y, node.x, node.y));
       if (squareDistance(x, y, node.x, node.y) < nodeDiameter * nodeDiameter) {
         return true;
       }
     }
+    // too close to edge
+    if (
+      x < nodeDiameter / 2 ||
+      y < nodeDiameter / 2 ||
+      x > width - nodeDiameter / 2 ||
+      y > width - nodeDiameter / 2
+    )
+      return true;
     return false;
   }
 
@@ -38,8 +51,8 @@ class Graph {
 
   #drawEdges() {
     for (let node of this.#nodes) {
-      if(node.neighbours.length > 0) {
-        for(let nodeId of node.neighbours) {
+      if (node.neighbours.length > 0) {
+        for (let nodeId of node.neighbours) {
           const otherNode = this.#nodes[nodeId - 1];
           line(node.x, node.y, otherNode.x, otherNode.y);
         }
@@ -58,6 +71,9 @@ class Graph {
   }
 
   onClick(x, y) {
+    // out of bounds -> nothing happens
+    if (this.#outOfBOunds(x, y)) return;
+
     // no node selected -> nothing happens
     if (!this.#selectedNode) return this.#addNode(x, y);
 
@@ -73,7 +89,7 @@ class Graph {
     this.#addNode(x, y);
   }
 
-  draw(){
+  draw() {
     this.#drawNodes();
     this.#drawEdges();
   }
