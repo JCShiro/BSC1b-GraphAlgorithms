@@ -1,6 +1,6 @@
 class Graph {
   nodes = [];
-  #currentId = 0;
+  #currentId = -1;
 
   // public functions
 
@@ -17,6 +17,24 @@ class Graph {
     }
     if (this.#closeToBorder(x, y)) {
       console.log("Too close to edge, no print!");
+      return;
+    }
+    let insideNode = this.#insideNode(x, y);
+    if (insideNode) {
+
+      if(this.#currentId != -1) {
+        //this.currentId --> contains previously selected node
+        //insideNode --> the newley selected node
+        const insideNodeId = this.nodes.indexOf(insideNode);
+        this.#addEdge(this.#currentId, insideNodeId);
+        return;
+      }
+
+      console.log("inside preexisting node,", insideNode, "node selected");
+      let selectedIndex = this.nodes.indexOf(insideNode);
+
+      this.nodes[selectedIndex].selected = true; //Marking specific node as selected
+      this.#currentId = selectedIndex; //storing the id of the selected node
       return;
     }
     this.nodes.push({ x, y });
@@ -69,7 +87,15 @@ class Graph {
    * @param {Number} y
    * @return {boolean}
    */
-  #insideNode(x, y) {}
+  #insideNode(x, y) {
+    let radius = nodeDiameter / 2;
+    for (let node of this.nodes) {
+      if (squareDistance(x, y, node.x, node.y) < radius * radius) {
+        return node;
+      }
+    }
+    return false;
+  }
 
   /**
    * Check if creating a node in (x, y) would make a node that overlaps with another node
@@ -85,6 +111,9 @@ class Graph {
   #drawNodes() {
     for (let node of this.nodes) {
       fill(95, 158, 160);
+      if(node.selected){
+        fill(220, 20, 60)
+      }
       circle(node.x, node.y, nodeDiameter);
     }
   }
@@ -92,16 +121,26 @@ class Graph {
   /**
    * draw all edges on canvas
    */
-  #drawEdges() {}
+  #drawEdges() {
+    for(let node of this.nodes){
+      if(node.neighbour){
+        let neighbourNode = this.nodes[node.neighbour];
+        line(node.x, node.y, neighbourNode.x, neighbourNode.y)
+      }
+    }
+  }
 
   // =================== INTERACTIVE ELEMENTS ===================
 
   /**
-   * Add new edge from selected node to node at (x, y)
+   * Add new edge from selected node at positions one and two
    * @param {*} x
    * @param {*} y
    */
-  #addEdge(x, y) {}
+  #addEdge(nodeOnePos, nodeTwoPos) {
+    this.nodes[nodeOnePos].neighbour = nodeTwoPos;
+    this.nodes[nodeTwoPos].neighbour = nodeOnePos;
+  }
 
   /**
    * Add new node at (x, y)
