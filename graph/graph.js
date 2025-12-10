@@ -12,6 +12,8 @@ class Graph {
    * @param {Number} y 
    */
   onClick(x, y) {
+    fill(95, 158, 160);
+    circle(x, y, nodeDiameter);
   }
 
   /**
