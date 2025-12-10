@@ -21,6 +21,12 @@ body {
   background-color: rgb(121, 254, 157);
 }
 
+main {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(230, 255, 209);
+}
+
 canvas {
   display: block;
   margin-top: 20px;
@@ -46,10 +52,4 @@ button:hover {
 button:active {
   top: 5px;
   left: -2px;
-}
-
-main {
-  display: flex;
-  justify-content: center;
-  background-color: rgb(230, 255, 209);
 }
