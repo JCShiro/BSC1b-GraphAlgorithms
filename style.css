@@ -33,12 +33,10 @@ button {
 
 button:hover {
     background: var(--color-primary-600);
-    box-shadow: -2px 2px 16px rgba(0, 0, 0, 0.6);
 }
 
 button:active{
-  box-shadow: -4px 4px 24px rgba(0, 0, 0, 0.8);
-  top: 0px;
+  top: 5px;
   left: 0px; 
 }
 
