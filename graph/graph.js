@@ -47,8 +47,11 @@ class Graph {
     //Check if node is overlapping a previus node
     if (this.#overlappingNode(x, y)) return;
 
-    this.nodes.push({ x, y });
-    // console.log(this.nodes); //console log for debugging
+    //create a node object and push to nodes array
+    //create new node object -> this allows us to access neighbours and other properties
+    let newNode = new Node(x, y, this.nodes.length);
+    this.nodes.push(newNode);
+    console.log(this.nodes); //console log for debugging
   }
 
   /**
@@ -138,10 +141,14 @@ class Graph {
    */
   #drawEdges() {
     for (let node of this.nodes) {
-      if (node.neighbour) {
-        let neighbourNode = this.nodes[node.neighbour];
-        line(node.x, node.y, neighbourNode.x, neighbourNode.y);
+      for (let neighbourID of node.neighbours) {
+        let neighbour = this.nodes[neighbourID];
+        line(node.x, node.y, neighbour.x, neighbour.y);
       }
+      // if (node.neighbour) {
+      //   let neighbourNode = this.nodes[node.neighbour];
+      //   line(node.x, node.y, neighbourNode.x, neighbourNode.y);
+      // }
     }
   }
 
@@ -153,12 +160,20 @@ class Graph {
    * @param {*} y
    */
   #addEdge(nodeOnePos, nodeTwoPos) {
-    this.nodes[nodeOnePos].neighbour = nodeTwoPos;
-    this.nodes[nodeTwoPos].neighbour = nodeOnePos;
+    // this.nodes[nodeOnePos].neighbour = nodeTwoPos;
+    // this.nodes[nodeTwoPos].neighbour = nodeOnePos;
+
+    //get node objects
+    let nodeOne = this.nodes[nodeOnePos];
+    let nodeTwo = this.nodes[nodeTwoPos];
+
+    //add as neighbours
+    nodeOne.addNeighbour(nodeTwoPos);
+    nodeTwo.addNeighbour(nodeOnePos);
   }
 
   #deselectNode() {
-    if(this.#currentId == -1) return;
+    if (this.#currentId == -1) return;
     this.nodes[this.#currentId].selected = false; //mark node as not selected
     this.#currentId = -1;
   }
