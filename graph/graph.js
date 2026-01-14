@@ -21,11 +21,15 @@ class Graph {
     }
     let insideNode = this.#insideNode(x, y);
     if (insideNode) {
-
-      if(this.#currentId != -1) {
+      if (this.#currentId != -1) {
         //this.currentId --> contains previously selected node
         //insideNode --> the newley selected node
         const insideNodeId = this.nodes.indexOf(insideNode);
+        //if same node, deselect and return
+        if (this.#currentId === insideNodeId) {
+          this.#deselectNode();
+          return;
+        }
         this.#addEdge(this.#currentId, insideNodeId);
         return;
       }
@@ -37,6 +41,12 @@ class Graph {
       this.#currentId = selectedIndex; //storing the id of the selected node
       return;
     }
+
+    this.#deselectNode();
+
+    //Check if node is overlapping a previus node
+    if (this.#overlappingNode(x, y)) return;
+
     this.nodes.push({ x, y });
     // console.log(this.nodes); //console log for debugging
   }
@@ -103,7 +113,12 @@ class Graph {
    * @param {Number} y
    * @return {boolean}
    */
-  #overlappingNode(x, y) {}
+  #overlappingNode(x, y) {
+    for (let node of this.nodes) {
+      if (squareDistance(x, y, node.x, node.y) < nodeDiameter ** 2) return node;
+    }
+    return false;
+  }
 
   /**
    * draw all nodes that in canvas
@@ -111,8 +126,8 @@ class Graph {
   #drawNodes() {
     for (let node of this.nodes) {
       fill(95, 158, 160);
-      if(node.selected){
-        fill(220, 20, 60)
+      if (node.selected) {
+        fill(220, 20, 60);
       }
       circle(node.x, node.y, nodeDiameter);
     }
@@ -122,10 +137,10 @@ class Graph {
    * draw all edges on canvas
    */
   #drawEdges() {
-    for(let node of this.nodes){
-      if(node.neighbour){
+    for (let node of this.nodes) {
+      if (node.neighbour) {
         let neighbourNode = this.nodes[node.neighbour];
-        line(node.x, node.y, neighbourNode.x, neighbourNode.y)
+        line(node.x, node.y, neighbourNode.x, neighbourNode.y);
       }
     }
   }
@@ -140,6 +155,12 @@ class Graph {
   #addEdge(nodeOnePos, nodeTwoPos) {
     this.nodes[nodeOnePos].neighbour = nodeTwoPos;
     this.nodes[nodeTwoPos].neighbour = nodeOnePos;
+  }
+
+  #deselectNode() {
+    if(this.#currentId == -1) return;
+    this.nodes[this.#currentId].selected = false; //mark node as not selected
+    this.#currentId = -1;
   }
 
   /**
