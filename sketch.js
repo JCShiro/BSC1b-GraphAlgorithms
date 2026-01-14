@@ -26,7 +26,7 @@ function mouseClicked() {
   if (graph.isComplete()) {
     completeSpan.innerHTML = "";
   } else {
-    completeSpan.innerHTML = "not";
+    completeSpan.innerHTML = "not ";
   }
 
   //check if a node is selected and change node degree text accordingly
