@@ -2,24 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Sketch</title>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
 
     <script src="helpers/helpers.js"></script>
     <script src="graph/node.js"></script>
     <script src="graph/graph.js"></script>
     <script src="libraries/p5.min.js"></script>
     <script src="libraries/p5.sound.min.js"></script>
+    <script src="sketch.js" defer></script>
   </head>
 
   <body>
     <div id="h1container">
       <h1>Graph Builder</h1>
     </div>
-    <script src="sketch.js"></script>
-    <main></main>
+    
+    <div id="main_container">
+      <!-- info display -->
+      <div id="info_container">
+        <!-- Main containing canvas -->
+        <h4>Graph properties</h4>
+        <p>This graph is <span id="completeSpan">not </span>complete</p>
+        <hr />
+        <h4>Selected Node Properties</h4>
+        <p>Selected Node Degree: <span id="degreeSpan"></span></p>
+      </div>
+      <main></main>
+    </div>
   </body>
 </html>

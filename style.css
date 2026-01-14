@@ -12,6 +12,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Courier New", Courier, monospace;
+  background-color: rgb(230, 255, 209);
 }
 
 #h1container {
@@ -24,13 +25,14 @@ body {
 main {
   display: flex;
   justify-content: center;
-  background-color: rgb(230, 255, 209);
 }
 
 canvas {
   display: block;
   margin-top: 20px;
   margin-bottom: 20px;
+  border: 0.5rem outset black;
+  outline: 0.5rem solid whitesmoke;
 }
 
 button {
@@ -52,4 +54,27 @@ button:hover {
 button:active {
   top: 5px;
   left: -2px;
+}
+
+#main_container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  justify-content: space-around;
+  /* align-items: center; */
+}
+
+#info_container {
+  width: 30vw;
+  height: 700px;
+  background-color: #2c3e50;
+  margin-top: 20px;
+  border: 0.5rem outset black;
+  outline: 0.5rem solid whitesmoke;
+  text-align: center;
+}
+
+h4,p{
+  color: white;
 }

@@ -11,11 +11,11 @@ class Graph {
    */
   onClick(x, y) {
     //if co-ordinates are out of bounds --> stop function
-    if (this.#outOfBOunds(x, y)) {
+    if (outOfBOunds(x, y)) {
       console.log("Out of Bounds, no print!");
       return;
     }
-    if (this.#closeToBorder(x, y)) {
+    if (closeToBorder(x, y)) {
       console.log("Too close to edge, no print!");
       return;
     }
@@ -62,37 +62,29 @@ class Graph {
     this.#drawEdges();
   }
 
-  // =================== Drawing Functions ===================
   /**
-   * Check if (x, y) is outside canvas bounds
-   * @param {Number} x
-   * @param {Number} y
-   * @return {boolean}
+   * A graph is complete when all nodes are connected to each other
+   * i.e. when all nodes have n - 1 neighbours, where n = number of nodes
+   * @returns true if graph is complete, false otherwise
    */
-  #outOfBOunds(x, y) {
-    let outside = false;
-    if (0 > x > width) return (outside = true);
-    if (0 > y > height) return (outside = true);
+  isComplete() {
+    for (let node of this.nodes) {
+      if (node.neighbours.length !== this.nodes.length - 1) return false;
+    }
+    return true;
   }
-  /**
-   * Checks if x, y is near the border
-   * @param {Number} x
-   * @param {Number} y
-   * @return {boolean}
-   */
-  #closeToBorder(x, y) {
-    let radius = nodeDiameter / 2;
-    let distanceLeft = x;
-    let distanceTop = y;
-    let distanceRight = width - x;
-    let distanceBottom = height - y;
 
-    let near = false;
-    if (distanceLeft <= radius) return (near = true);
-    if (distanceTop <= radius) return (near = true);
-    if (distanceRight <= radius) return (near = true);
-    if (distanceBottom <= radius) return (near = true);
+  /**
+   * @returns -1 if no selected node, or number of neighbours if a node is selected
+   */
+  getSelectedNodeDegree(){
+    if(this.#currentId ==-1) return -1;
+
+    //get selected node and return degree
+    let selectedNode = this.nodes[this.#currentId];
+    return selectedNode.neighbours.length
   }
+  // =================== Drawing Functions ===================
 
   /**
    * Check if (x, y) is inside another node
@@ -186,4 +178,4 @@ class Graph {
   #addNode(x, y) {}
 }
 
-let graph = new Graph();
+
